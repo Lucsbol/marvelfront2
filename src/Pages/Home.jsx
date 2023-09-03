@@ -3,7 +3,7 @@ import videomarvel from "../assets/images/marvelvideo.webm";
 
 const Home = () => {
   useEffect(() => {
-    const videoElement = document.querySelector("video"); // Update the selector
+    const videoElement = document.querySelector("video");
 
     const handleVideoEnded = () => {
       window.location.href = "/Home";
