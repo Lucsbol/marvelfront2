@@ -3,11 +3,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../Pages/Header";
 import Footer from "../Pages/Footer";
+import Cookies from "js-cookie"; // Importez la bibliothèque Cookies
 
 const Character = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [characterData, setCharacterData] = useState({});
   const [comicData, setComicData] = useState([]);
+  const [favorites, setFavorites] = useState([]); // Ajoutez un état pour les favoris
 
   const { characterId } = useParams();
 
@@ -27,16 +29,54 @@ const Character = () => {
     };
 
     fetchData();
+
+    // Récupérez la liste des favoris depuis les cookies au chargement
+    const savedFavorites = Cookies.get("charactersfavorites");
+    if (savedFavorites) {
+      try {
+        // Tentez de désérialiser la chaîne JSON depuis les cookies
+        const parsedFavorites = JSON.parse(savedFavorites);
+
+        // Assurez-vous que parsedFavorites est un tableau
+        if (Array.isArray(parsedFavorites)) {
+          setFavorites(parsedFavorites);
+        } else {
+          console.error(
+            "La valeur des cookies n'est pas un tableau JSON valide."
+          );
+        }
+      } catch (error) {
+        console.error(
+          "Erreur lors de la désérialisation JSON des cookies:",
+          error
+        );
+      }
+    }
   }, [characterId]);
 
   if (isLoading) {
     return <p>Loading...</p>;
   }
 
-  // Vérifier si la description du personnage est vide et afficher du Lorem ipsum sinon
   const characterDescription = characterData.description
     ? characterData.description
     : "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum dignissim neque urna, et viverra tellus mattis eu. Quisque sollicitudin in leo ac semper. Ut vitae libero a odio porta tristique.";
+
+  const toggleFavorite = (characterId) => {
+    let updatedFavorites;
+
+    if (favorites.includes(characterId)) {
+      updatedFavorites = favorites.filter((id) => id !== characterId);
+    } else {
+      updatedFavorites = [...favorites, characterId];
+    }
+
+    setFavorites(updatedFavorites);
+
+    Cookies.set("charactersfavorites", JSON.stringify(updatedFavorites));
+    // Affichez les favoris mis à jour dans la console
+    console.log("Contenu des cookies (favoris) :", updatedFavorites);
+  };
 
   return (
     <div>
@@ -52,6 +92,11 @@ const Character = () => {
           <div className="characterDetails">
             <h1 className="Name">{characterData.name}</h1>
             <p>{characterDescription}</p>
+            <button onClick={() => toggleFavorite(characterId)}>
+              {favorites.includes(characterId)
+                ? "Supprimer des favoris"
+                : "Ajouter aux favoris"}
+            </button>
           </div>
         </div>
         <h2>Comics:</h2>

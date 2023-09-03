@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Header from "../Pages/Header";
 import Footer from "../Pages/Footer";
+import Cookies from "js-cookie";
 
 const Comics = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -12,7 +13,35 @@ const Comics = () => {
   const [limit, setLimit] = useState(100);
   const maxPage = 474;
 
+  const [favoriteTab, setFavoriteTab] = useState(() => {
+    const savedFavorites = Cookies.get("comicsfavorites");
+    if (savedFavorites) {
+      try {
+        const parsedFavorites = JSON.parse(savedFavorites);
+
+        if (Array.isArray(parsedFavorites)) {
+          return parsedFavorites;
+        } else {
+          console.error(
+            "La valeur des cookies n'est pas un tableau JSON valide."
+          );
+        }
+      } catch (error) {
+        console.error(
+          "Erreur lors de la désérialisation JSON des cookies:",
+          error
+        );
+      }
+    }
+    return [];
+  });
+
   useEffect(() => {
+    console.log(
+      "Cookies présents au chargement initial (Comics) : ",
+      Cookies.get()
+    );
+
     const fetchData = async () => {
       try {
         const response = await axios.get(
@@ -27,6 +56,14 @@ const Comics = () => {
     fetchData();
   }, [searchQuery, skip, limit]);
 
+  useEffect(() => {
+    console.log("Favorites mis à jour (Comics) : ", favoriteTab);
+
+    Cookies.set("comicsfavorites", JSON.stringify(favoriteTab), {
+      expires: 365,
+    });
+  }, [favoriteTab]);
+
   const handlePreviousPage = () => {
     setSkip(Math.max(0, skip - limit));
   };
@@ -35,6 +72,22 @@ const Comics = () => {
     if (skip + limit < maxPage * limit) {
       setSkip(skip + limit);
     }
+  };
+
+  const toggleFavorite = (comicId) => {
+    if (favoriteTab.includes(comicId)) {
+      // Si le comic est déjà dans les favoris, le supprimer
+      setFavoriteTab((prevFavorites) =>
+        prevFavorites.filter((id) => id !== comicId)
+      );
+    } else {
+      // Sinon, l'ajouter aux favoris
+      setFavoriteTab((prevFavorites) => [...prevFavorites, comicId]);
+    }
+  };
+
+  const isFavorite = (comicId) => {
+    return favoriteTab.includes(comicId);
   };
 
   if (isLoading) {
@@ -75,16 +128,16 @@ const Comics = () => {
           </button>
         </div>
         <div className="comicsGrid">
-          {data.results.map((comics) => (
-            <div className="comics" key={comics._id}>
-              <Link to={`/comic/${comics._id}`}>
+          {data.results.map((comic) => (
+            <div className="comics" key={comic._id}>
+              <Link to={`/comic/${comic._id}`}>
                 <img
-                  src={`${comics.thumbnail.path}/portrait_uncanny.${comics.thumbnail.extension}`}
-                  alt={`${comics.title} thumbnail`}
+                  src={`${comic.thumbnail.path}/portrait_uncanny.${comic.thumbnail.extension}`}
+                  alt={`${comic.title} thumbnail`}
                 />
               </Link>
-              <h3 className="comicsTitle">{comics.title}</h3>
-              {comics.description === null ? (
+              <h3 className="comicsTitle">{comic.title}</h3>
+              {comic.description === null ? (
                 <p>
                   {" "}
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -93,8 +146,13 @@ const Comics = () => {
                   porta tristique{" "}
                 </p>
               ) : (
-                <p>{comics.description}</p>
+                <p>{comic.description}</p>
               )}
+              <button onClick={() => toggleFavorite(comic._id)}>
+                {isFavorite(comic._id)
+                  ? "Supprimer des favoris"
+                  : "Ajouter aux favoris"}
+              </button>
             </div>
           ))}
         </div>

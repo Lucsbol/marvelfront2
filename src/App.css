@@ -311,13 +311,23 @@ body {
 
 /* Favoris */
 
+.favoris {
+  max-width: 1200px;
+  margin: 0 auto; /* Centre le contenu horizontalement */
+  padding: 20px; /* Ajoute un peu d'espace intérieur si nécessaire */
+}
+
 .persopref {
+  margin-top: 20px;
   font-weight: bold;
 }
 
 .comicpref {
   font-weight: bold;
+  margin-top: 20px;
 }
+
+/* Footer*/
 
 .nav-footer {
   margin-top: 20px;
@@ -337,7 +347,7 @@ body {
 
 .logofooter {
   height: 60px;
-  margin-right: auto; /* Espacement plus raisonnable */
+  margin-right: auto;
 }
 
 .footer-link {

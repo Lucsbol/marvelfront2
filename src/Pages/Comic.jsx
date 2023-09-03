@@ -3,12 +3,35 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../Pages/Header";
 import Footer from "../Pages/Footer";
+import Cookies from "js-cookie";
 
 const Comic = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState(null);
-
   const { id } = useParams();
+
+  const [favoriteTab, setFavoriteTab] = useState(() => {
+    const savedFavorites = Cookies.get("comicsfavorites");
+    if (savedFavorites) {
+      try {
+        const parsedFavorites = JSON.parse(savedFavorites);
+
+        if (Array.isArray(parsedFavorites)) {
+          return parsedFavorites;
+        } else {
+          console.error(
+            "La valeur des cookies n'est pas un tableau JSON valide."
+          );
+        }
+      } catch (error) {
+        console.error(
+          "Erreur lors de la désérialisation JSON des cookies:",
+          error
+        );
+      }
+    }
+    return [];
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -16,7 +39,6 @@ const Comic = () => {
         const response = await axios.get(
           `https://site--marvelback--8v56f9bv5z26.code.run/comic/${id}`
         );
-        console.log("response data ==> ", response.data);
         setData(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -27,14 +49,32 @@ const Comic = () => {
     fetchData();
   }, [id]);
 
+  const toggleFavorite = (comicId) => {
+    if (favoriteTab.includes(comicId)) {
+      // Si le comic est déjà dans les favoris, le supprimer
+      setFavoriteTab((prevFavorites) =>
+        prevFavorites.filter((id) => id !== comicId)
+      );
+    } else {
+      // Sinon, l'ajouter aux favoris
+      setFavoriteTab((prevFavorites) => [...prevFavorites, comicId]);
+    }
+  };
+
+  useEffect(() => {
+    Cookies.set("comicsfavorites", JSON.stringify(favoriteTab), {
+      expires: 365,
+    });
+  }, [favoriteTab]);
+
   if (isLoading) {
     return (
       <div>
-        <Header /> {/* Inclusion du composant Header */}
+        <Header />
         <div className="comic-container">
           <p>Loading...</p>
         </div>
-        <Footer /> {/* Inclusion du composant Footer */}
+        <Footer />
       </div>
     );
   }
@@ -42,18 +82,20 @@ const Comic = () => {
   if (!data) {
     return (
       <div>
-        <Header /> {/* Inclusion du composant Header */}
+        <Header />
         <div className="comic-container">
           <p>No data available</p>
         </div>
-        <Footer /> {/* Inclusion du composant Footer */}
+        <Footer />
       </div>
     );
   }
 
+  const isFavorite = favoriteTab.includes(data._id);
+
   return (
     <div>
-      <Header /> {/* Inclusion du composant Header */}
+      <Header />
       <div className="comic-container">
         <div className="comicInfo">
           <div className="comic-image">
@@ -79,15 +121,16 @@ const Comic = () => {
                 <p>{data.description}</p>
               )}
             </div>
+            <button onClick={() => toggleFavorite(data._id)}>
+              {isFavorite ? "Supprimer des favoris" : "Ajouter aux favoris"}
+            </button>
           </div>
         </div>
-
-        {/* Le lien "Retour aux comics" est déplacé ici, à la fin de la page */}
         <Link to="/comics" className="return-link">
           Retour aux comics
         </Link>
       </div>
-      <Footer /> {/* Inclusion du composant Footer */}
+      <Footer />
     </div>
   );
 };

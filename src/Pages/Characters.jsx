@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Header from "../Pages/Header";
 import Footer from "../Pages/Footer";
+import Cookies from "js-cookie";
 
 const Characters = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -11,7 +12,32 @@ const Characters = () => {
   const [skip, setSkip] = useState(0);
   const [limit, setLimit] = useState(100);
 
+  const [favoriteTab, setFavoriteTab] = useState(() => {
+    const savedFavorites = Cookies.get("charactersfavorites"); // Utilisez la clé "charactersfavorites" pour les cookies
+    if (savedFavorites) {
+      try {
+        const parsedFavorites = JSON.parse(savedFavorites);
+
+        if (Array.isArray(parsedFavorites)) {
+          return parsedFavorites;
+        } else {
+          console.error(
+            "La valeur des cookies n'est pas un tableau JSON valide."
+          );
+        }
+      } catch (error) {
+        console.error(
+          "Erreur lors de la désérialisation JSON des cookies:",
+          error
+        );
+      }
+    }
+    return [];
+  });
+
   useEffect(() => {
+    console.log("Cookies présents au chargement initial : ", Cookies.get());
+
     const fetchData = async () => {
       try {
         const response = await axios.get(
@@ -26,6 +52,14 @@ const Characters = () => {
     fetchData();
   }, [searchQuery, skip, limit]);
 
+  useEffect(() => {
+    console.log("Favorites mis à jour : ", favoriteTab);
+
+    Cookies.set("charactersfavorites", JSON.stringify(favoriteTab), {
+      expires: 365,
+    }); // Utilisez la clé "charactersfavorites" pour les cookies
+  }, [favoriteTab]);
+
   const handlePreviousPage = () => {
     setSkip(Math.max(0, skip - limit));
   };
@@ -33,6 +67,18 @@ const Characters = () => {
   const handleNextPage = () => {
     if (skip + limit < data.count) {
       setSkip(skip + limit);
+    }
+  };
+
+  const toggleFavorite = (characterId) => {
+    if (favoriteTab.includes(characterId)) {
+      // Si le personnage est déjà dans les favoris, le supprimer
+      setFavoriteTab((prevFavorites) =>
+        prevFavorites.filter((id) => id !== characterId)
+      );
+    } else {
+      // Sinon, l'ajouter aux favoris
+      setFavoriteTab((prevFavorites) => [...prevFavorites, characterId]);
     }
   };
 
@@ -87,6 +133,11 @@ const Characters = () => {
               ) : (
                 <p>{character.description}</p>
               )}
+              <button onClick={() => toggleFavorite(character._id)}>
+                {favoriteTab.includes(character._id)
+                  ? "Supprimer des favoris"
+                  : "Ajouter aux favoris"}
+              </button>
             </div>
           ))}
         </div>
