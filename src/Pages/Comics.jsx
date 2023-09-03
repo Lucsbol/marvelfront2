@@ -105,25 +105,27 @@ const Comics = () => {
     <div>
       <Header />
       <div className="comicsContainer">
-        <input
-          type="text"
-          placeholder="Chercher un comic"
-          value={searchQuery}
-          onChange={(event) => setSearchQuery(event.target.value)}
-        />
-        <div className="pagination-simple">
-          <button onClick={handlePreviousPage} disabled={skip === 0}>
-            Précédent
-          </button>
-          <span>
-            Page {currentPage} sur {totalPages}
-          </span>
-          <button
-            onClick={handleNextPage}
-            disabled={skip + limit >= data.total || currentPage >= totalPages}
-          >
-            Suivant
-          </button>
+        <div className="search-and-pagination">
+          <input
+            type="text"
+            placeholder="Chercher un comic"
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.target.value)}
+          />
+          <div className="pagination-simple">
+            <button onClick={handlePreviousPage} disabled={skip === 0}>
+              Précédent
+            </button>
+            <span>
+              Page {currentPage} sur {totalPages}
+            </span>
+            <button
+              onClick={handleNextPage}
+              disabled={skip + limit >= data.total || currentPage >= totalPages}
+            >
+              Suivant
+            </button>
+          </div>
         </div>
         <div className="comicsGrid">
           {data.results.map((comic) => (
@@ -146,7 +148,10 @@ const Comics = () => {
               ) : (
                 <p>{comic.description}</p>
               )}
-              <button onClick={() => toggleFavorite(comic._id)}>
+              <button
+                className="boutonfavoris"
+                onClick={() => toggleFavorite(comic._id)}
+              >
                 {isFavorite(comic._id)
                   ? "💔 Supprimer des favoris"
                   : "❤️ Ajouter aux favoris"}

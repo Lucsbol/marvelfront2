@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
+import videomarvel from "../assets/images/marvelvideo.webm";
 
 const Home = () => {
   useEffect(() => {
-    const videoElement = document.querySelector("video");
+    const videoElement = document.querySelector("video"); // Update the selector
 
     const handleVideoEnded = () => {
       window.location.href = "/Home";
@@ -33,7 +34,7 @@ const Home = () => {
             right: 0,
           }}
         >
-          <source src="src/assets/images/marvelvideo.webm" type="video/webm" />
+          <source src={videomarvel} type="video/webm" />
         </video>
       </div>
     </div>

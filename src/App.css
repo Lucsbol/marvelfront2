@@ -99,10 +99,10 @@ body {
 .left {
   flex: 1;
   background-color: #ed171f;
-  display: flex; /* Ajout de display: flex; */
+  display: flex;
   flex-direction: column;
-  justify-content: center; /* Centre les éléments verticalement */
-  align-items: center; /* Centre les éléments horizontalement */
+  justify-content: center;
+  align-items: center;
 }
 
 .right {
@@ -313,8 +313,8 @@ body {
 
 .favoris {
   max-width: 1200px;
-  margin: 0 auto; /* Centre le contenu horizontalement */
-  padding: 20px; /* Ajoute un peu d'espace intérieur si nécessaire */
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .persopref {
@@ -327,12 +327,15 @@ body {
   margin-top: 20px;
 }
 
-/* Footer*/
+.heart-image {
+  max-width: 55px;
+  max-height: 55px;
+}
+
+/* Footer */
 
 .nav-footer {
   margin-top: 20px;
-  bottom: 0;
-  left: 0;
   width: 100%;
   background-color: black;
   padding: 10px 0;
@@ -360,4 +363,55 @@ body {
 
 .footer-link:hover {
   color: red;
+}
+
+.footer-container {
+  flex-shrink: 0;
+  /* Styles spécifiques pour le footer */
+  background-color: #333;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+/* Recherche et Pagination */
+
+.search-and-pagination {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+input[type="text"] {
+  flex: 1;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+button {
+  padding: 5px 5px;
+  cursor: pointer;
+  background-color: red;
+  color: #fff;
+  border: none;
+  border-top: 20px;
+  border-radius: 3px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.boutonfavoris {
+  margin-top: 20px;
+  background-color: black;
+  width: 100%;
+  bottom: 0;
 }

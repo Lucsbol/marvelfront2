@@ -91,29 +91,32 @@ const Characters = () => {
     <div>
       <Header />
       <div className="charactersContainer">
-        <input
-          type="text"
-          placeholder="Chercher un personnage"
-          value={searchQuery}
-          onChange={(event) => setSearchQuery(event.target.value)}
-        />
-        <div className="pagination-simple">
-          <button onClick={handlePreviousPage} disabled={skip === 0}>
-            Précédent
-          </button>
-          <span>
-            Page {currentPage} sur {maxPage}
-          </span>
-          <button
-            onClick={handleNextPage}
-            disabled={skip + limit >= data.count || currentPage >= maxPage}
-          >
-            Suivant
-          </button>
+        <div className="search-and-pagination">
+          <input
+            type="text"
+            placeholder="Chercher un personnage"
+            value={searchQuery}
+            onChange={(event) => setSearchQuery(event.target.value)}
+          />
+          <div className="pagination-simple">
+            <button onClick={handlePreviousPage} disabled={skip === 0}>
+              Précédent
+            </button>
+            <span>
+              Page {currentPage} sur {maxPage}
+            </span>
+            <button
+              onClick={handleNextPage}
+              disabled={skip + limit >= data.count || currentPage >= maxPage}
+            >
+              Suivant
+            </button>
+          </div>
         </div>
+
         <div className="charactersGrid">
           {data.results.map((character) => (
-            <div className="characters" key={character._id}>
+            <div className="character" key={character._id}>
               <Link to={`/character/${character._id}`}>
                 <img
                   src={`${character.thumbnail.path}/portrait_uncanny.${character.thumbnail.extension}`}
@@ -131,7 +134,10 @@ const Characters = () => {
               ) : (
                 <p>{character.description}</p>
               )}
-              <button onClick={() => toggleFavorite(character._id)}>
+              <button
+                className="boutonfavoris"
+                onClick={() => toggleFavorite(character._id)}
+              >
                 {favoriteTab.includes(character._id)
                   ? "💔 Supprimer des favoris"
                   : "❤️ Ajouter aux favoris"}

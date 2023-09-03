@@ -89,7 +89,10 @@ const Character = () => {
           <div className="characterDetails">
             <h1 className="Name">{characterData.name}</h1>
             <p>{characterDescription}</p>
-            <button onClick={() => toggleFavorite(characterId)}>
+            <button
+              className="boutonfavoris"
+              onClick={() => toggleFavorite(characterId)}
+            >
               {favorites.includes(characterId)
                 ? "💔 Supprimer des favoris"
                 : "❤️ Ajouter aux favoris"}
@@ -121,7 +124,9 @@ const Character = () => {
             </div>
           ))}
         </div>
-        <Link to="/characters">Retour aux personnages</Link>{" "}
+        <button to="/characters" className="return-link">
+          Retour aux personnages
+        </button>
       </div>
       <Footer />
     </div>

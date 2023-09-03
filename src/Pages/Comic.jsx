@@ -119,18 +119,21 @@ const Comic = () => {
                 <p>{data.description}</p>
               )}
             </div>
-            <button onClick={() => toggleFavorite(data._id)}>
+            <button
+              className="boutonfavoris"
+              onClick={() => toggleFavorite(data._id)}
+            >
               {isFavorite
                 ? "💔 Supprimer des favoris"
                 : "❤️ Ajouter aux favoris"}
             </button>
           </div>
         </div>
-        <Link to="/comics" className="return-link">
+        <button to="/comics" className="return-link">
           Retour aux comics
-        </Link>
+        </button>
       </div>
-      <Footer />
+      <Footer className="footer-container" />
     </div>
   );
 };

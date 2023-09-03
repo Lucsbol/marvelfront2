@@ -12,7 +12,9 @@ const Footer = () => {
             alt="Logo pdc"
           />
           <Link to="https://github.com/Lucsbol" className="footer-link">
-            <span className="bold-text">Fait avec ❤ par Lucas Bolivard</span>
+            <span className="bold-text">
+              Fait avec ❤ par Lucas Bolivard au Reacteur
+            </span>
           </Link>
         </div>
       </div>
