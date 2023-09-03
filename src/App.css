@@ -72,8 +72,6 @@ body {
   color: red;
 }
 
-/* Footer */
-
 /* Home */
 
 .home-container {
@@ -92,7 +90,6 @@ body {
 }
 
 /* Home 2*/
-
 .home-container {
   display: flex;
   width: 100%;
@@ -102,22 +99,40 @@ body {
 .left {
   flex: 1;
   background-color: #ed171f;
+  display: flex; /* Ajout de display: flex; */
+  flex-direction: column;
+  justify-content: center; /* Centre les éléments verticalement */
+  align-items: center; /* Centre les éléments horizontalement */
 }
 
 .right {
   flex: 1;
-  background-color: #0c120c;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.home2 .header,
-.home2 .footer {
-  display: none;
+.left a,
+.right a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+  font-size: 30px;
+  font-family: "Roboto";
 }
+
+.right a {
+  color: #ed171f;
+}
+
 /* Comics */
 
 .comicsContainer {
   max-width: 1200px;
   margin: 0 auto;
+  margin-top: 20px;
 }
 
 .comicsGrid {
@@ -161,6 +176,7 @@ body {
 .charactersContainer {
   max-width: 1200px;
   margin: 0 auto;
+  margin-top: 20px;
 }
 
 .charactersGrid {
@@ -291,4 +307,47 @@ body {
 .return-link {
   margin-top: auto;
   text-align: center;
+}
+
+/* Favoris */
+
+.persopref {
+  font-weight: bold;
+}
+
+.comicpref {
+  font-weight: bold;
+}
+
+.nav-footer {
+  margin-top: 20px;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: black;
+  padding: 10px 0;
+  text-align: center;
+}
+
+.logo-and-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logofooter {
+  height: 60px;
+  margin-right: auto; /* Espacement plus raisonnable */
+}
+
+.footer-link {
+  font-family: "Roboto", sans-serif;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-link:hover {
+  color: red;
 }

@@ -1,16 +1,21 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Home2 = () => {
   return (
     <div className="home2">
       <div className="home-container">
         <div className="left">
-          <img src="src/assets/images/perso.png" alt="Personnages" />
-          <h1>Voir les personnages</h1>
+          <Link to="/comics">
+            <img src="src/assets/images/comics.png" alt="Comics" />
+            <h1>← VOIR LES COMICS</h1>
+          </Link>
         </div>
         <div className="right">
-          <img src="src/assets/images/comics.png" alt="Comics" />
-          <h1>Voir les comics</h1>
+          <Link to="/characters">
+            <img src="src/assets/images/hero.png" alt="Personnages" />
+            <h1>VOIR LES PERSONNAGES → </h1>
+          </Link>
         </div>
       </div>
     </div>

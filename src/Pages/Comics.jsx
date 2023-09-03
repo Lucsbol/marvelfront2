@@ -40,9 +40,9 @@ const Comics = () => {
   if (isLoading) {
     return (
       <div>
-        <Header /> {/* Inclusion du composant Header */}
-        <div>Loading...</div>
-        <Footer /> {/* Inclusion du composant Footer */}
+        <Header />
+        <div>Chargement...</div>
+        <Footer />
       </div>
     );
   }
@@ -52,12 +52,11 @@ const Comics = () => {
 
   return (
     <div>
-      <Header /> {/* Inclusion du composant Header */}
+      <Header />
       <div className="comicsContainer">
-        <h1>Comics</h1>
         <input
           type="text"
-          placeholder="Search comics"
+          placeholder="Chercher un comic"
           value={searchQuery}
           onChange={(event) => setSearchQuery(event.target.value)}
         />
@@ -100,7 +99,7 @@ const Comics = () => {
           ))}
         </div>
       </div>
-      <Footer /> {/* Inclusion du composant Footer */}
+      <Footer />
     </div>
   );
 };

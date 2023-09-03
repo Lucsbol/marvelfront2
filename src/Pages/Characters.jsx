@@ -37,7 +37,7 @@ const Characters = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>Chargement...</div>;
   }
 
   const maxPage = Math.ceil(data.count / limit);
@@ -47,10 +47,9 @@ const Characters = () => {
     <div>
       <Header />
       <div className="charactersContainer">
-        <h1>Characters</h1>
         <input
           type="text"
-          placeholder="Search characters"
+          placeholder="Chercher un personnage"
           value={searchQuery}
           onChange={(event) => setSearchQuery(event.target.value)}
         />

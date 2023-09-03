@@ -9,10 +9,7 @@ import Character from "./Pages/Character";
 import Comics from "./Pages/Comics";
 import Comic from "./Pages/Comic";
 import Home2 from "./Pages/Home2";
-
-// Components
-import Header from "./Pages/Header";
-import Footer from "./Pages/Footer";
+import Favoris from "./Pages/Favoris";
 
 function App() {
   return (
@@ -24,6 +21,7 @@ function App() {
         <Route path="/character/:characterId" element={<Character />} />
         <Route path="/comics" element={<Comics />} />
         <Route path="/comic/:id" element={<Comic />} />{" "}
+        <Route path="/favoris" element={<Favoris />} />
       </Routes>
     </Router>
   );
