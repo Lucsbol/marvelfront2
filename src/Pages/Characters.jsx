@@ -13,7 +13,7 @@ const Characters = () => {
   const [limit, setLimit] = useState(100);
 
   const [favoriteTab, setFavoriteTab] = useState(() => {
-    const savedFavorites = Cookies.get("charactersfavorites"); // Utilisez la clé "charactersfavorites" pour les cookies
+    const savedFavorites = Cookies.get("charactersfavorites");
     if (savedFavorites) {
       try {
         const parsedFavorites = JSON.parse(savedFavorites);
@@ -57,7 +57,7 @@ const Characters = () => {
 
     Cookies.set("charactersfavorites", JSON.stringify(favoriteTab), {
       expires: 365,
-    }); // Utilisez la clé "charactersfavorites" pour les cookies
+    });
   }, [favoriteTab]);
 
   const handlePreviousPage = () => {
@@ -72,12 +72,10 @@ const Characters = () => {
 
   const toggleFavorite = (characterId) => {
     if (favoriteTab.includes(characterId)) {
-      // Si le personnage est déjà dans les favoris, le supprimer
       setFavoriteTab((prevFavorites) =>
         prevFavorites.filter((id) => id !== characterId)
       );
     } else {
-      // Sinon, l'ajouter aux favoris
       setFavoriteTab((prevFavorites) => [...prevFavorites, characterId]);
     }
   };
@@ -135,8 +133,8 @@ const Characters = () => {
               )}
               <button onClick={() => toggleFavorite(character._id)}>
                 {favoriteTab.includes(character._id)
-                  ? "Supprimer des favoris"
-                  : "Ajouter aux favoris"}
+                  ? "💔 Supprimer des favoris"
+                  : "❤️ Ajouter aux favoris"}
               </button>
             </div>
           ))}

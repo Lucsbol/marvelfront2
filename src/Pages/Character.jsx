@@ -9,7 +9,7 @@ const Character = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [characterData, setCharacterData] = useState({});
   const [comicData, setComicData] = useState([]);
-  const [favorites, setFavorites] = useState([]); // Ajoutez un état pour les favoris
+  const [favorites, setFavorites] = useState([]);
 
   const { characterId } = useParams();
 
@@ -30,14 +30,11 @@ const Character = () => {
 
     fetchData();
 
-    // Récupérez la liste des favoris depuis les cookies au chargement
     const savedFavorites = Cookies.get("charactersfavorites");
     if (savedFavorites) {
       try {
-        // Tentez de désérialiser la chaîne JSON depuis les cookies
         const parsedFavorites = JSON.parse(savedFavorites);
 
-        // Assurez-vous que parsedFavorites est un tableau
         if (Array.isArray(parsedFavorites)) {
           setFavorites(parsedFavorites);
         } else {
@@ -94,8 +91,8 @@ const Character = () => {
             <p>{characterDescription}</p>
             <button onClick={() => toggleFavorite(characterId)}>
               {favorites.includes(characterId)
-                ? "Supprimer des favoris"
-                : "Ajouter aux favoris"}
+                ? "💔 Supprimer des favoris"
+                : "❤️ Ajouter aux favoris"}
             </button>
           </div>
         </div>

@@ -76,12 +76,10 @@ const Comics = () => {
 
   const toggleFavorite = (comicId) => {
     if (favoriteTab.includes(comicId)) {
-      // Si le comic est déjà dans les favoris, le supprimer
       setFavoriteTab((prevFavorites) =>
         prevFavorites.filter((id) => id !== comicId)
       );
     } else {
-      // Sinon, l'ajouter aux favoris
       setFavoriteTab((prevFavorites) => [...prevFavorites, comicId]);
     }
   };
@@ -150,8 +148,8 @@ const Comics = () => {
               )}
               <button onClick={() => toggleFavorite(comic._id)}>
                 {isFavorite(comic._id)
-                  ? "Supprimer des favoris"
-                  : "Ajouter aux favoris"}
+                  ? "💔 Supprimer des favoris"
+                  : "❤️ Ajouter aux favoris"}
               </button>
             </div>
           ))}

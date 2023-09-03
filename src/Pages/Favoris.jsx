@@ -119,7 +119,7 @@ const Favoris = () => {
                   alt={`${comic.title} thumbnail`}
                 />
               </Link>
-              <h3 className="Title">{comic.title}</h3>
+              <h3 className="Name">{comic.title}</h3>
               {comic.description === "" ? (
                 <p>Description indisponible.</p>
               ) : (

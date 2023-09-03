@@ -7,13 +7,13 @@ const Home2 = () => {
       <div className="home-container">
         <div className="left">
           <Link to="/comics">
-            <img src="src/assets/images/comics.png" alt="Comics" />
+            <img src="src/assets/images/comics.svg" alt="Comics" />
             <h1>← VOIR LES COMICS</h1>
           </Link>
         </div>
         <div className="right">
           <Link to="/characters">
-            <img src="src/assets/images/hero.png" alt="Personnages" />
+            <img src="src/assets/images/hero.svg" alt="Personnages" />
             <h1>VOIR LES PERSONNAGES → </h1>
           </Link>
         </div>
